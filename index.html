@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Gobot - Introduction and Gentle Walkthrough</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -24,8 +24,181 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>Gobot - Combining the love for Go and IoT</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						### Intro
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+### Rajiv Manivannan
+
+* https://github.com/rajivmanivannan
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+### Gaurav Agarwal
+
+* https://gauravagarwalr.com
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+# Gobot
+
+* https://github.com/hybridgroup/gobot
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+## By
+* https://github.com/hybridgroup
+
+### What else do they work on?
+* https://cylonjs.com/
+* http://gort.io/
+* https://github.com/hybridgroup/artoo
+					</textarea>
+				</section>
+
+				<section>
+					<p class="fragment grow">For demo,</p>
+					<p class="fragment shrink">we chose Raspberry Pi</p>
+					<p class="fragment fade-up">due to</p>
+					<p class="fragment current-visible">AVAILABILITY</p>
+				</section>
+
+				<section>
+					GPIO Pins
+				</section>
+
+				<section>
+					<img src="https://raw.githubusercontent.com/Chennai-Go-Lang/Gobot-LightUp/master/RPi-GPIO-layout.png"/>
+				</section>
+
+				<section>
+					Different interfaces
+					<p class="fragment fade-out">UART</p>
+					<p class="fragment current-visible">Universal Asynchronous Receiver-Transmitter = Not using clock</p>
+					<p class="fragment fade-up">SPI</p>
+					<p class="fragment current-visible">Serial Peripheral Interface Bus = Using clock (Synchronous)</p>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						# Diving into Gobot
+					</textarea>
+				</section>
+
+				<section>
+					<p class="fragment">Adaptor</p>
+					<ul class="fragment current-visible">
+						<li><b>Platforms</b></li>
+						<li>Raspberry Pi</li>
+						<li>Arduino</li>
+					</ul>
+
+					<p class="fragment">Driver</p>
+					<ul class="fragment current-visible">
+						<li><b>Real world devices</b></li>
+						<li>LEDs</li>
+						<li>Servo Motors</li>
+					</ul>
+
+					<p class="fragment">Robot</p>
+					<div class="fragment current-visible">A collection of drivers, which does work.</div>
+				</section>
+
+				<section>
+					Simple blinker example
+				</section>
+
+				<section>
+<pre><code data-trim data-noescape>
+package main
+
+import (
+  "time"
+
+  "gobot.io/x/gobot"
+  "gobot.io/x/gobot/drivers/gpio"
+  "gobot.io/x/gobot/platforms/firmata"
+)
+
+func main() {
+  firmataAdaptor := firmata.NewAdaptor("/dev/ttyACM0")
+  led := gpio.NewLedDriver(firmataAdaptor, "13")
+
+  work := func() {
+    gobot.Every(1*time.Second, func() {
+      led.Toggle()
+    })
+  }
+
+  robot := gobot.NewRobot("bot",
+    []gobot.Connection{firmataAdaptor},
+    []gobot.Device{led},
+    work,
+  )
+
+  robot.Start()
+}
+</code></pre>
+
+				</section>
+
+				<section>
+					<h3>Advance concepts</h3>
+				</section>
+
+				<section>
+					<pre>
+Special thanks to Dhruva Sagar!
+
+https://github.com/dhruvasagar/rpicctv
+					</pre>
+				</section>
+
+				<section>
+					<p class="fragment">Command</p>
+					<p class="fragment">Master</p>
+					<p class="fragment">HTTP API</p>
+				</section>
+
+				<section>
+					Less talk more action! ;)
+					<p class="fragment fade-up">Demo & explanation!</p>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+## Thanks?!
+
+* Code & Slides -> https://github.com/Chennai-Go-Lang/Gobot-LightUp
+
+---
+
+### How to contribute?
+
+* Documentation!
+* Test, improve, Add more Drivers and Platforms
+* Security and fine-grained control over the API
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						A better demo?!
+					</textarea>
+				</section>
+
 			</div>
 		</div>
 
